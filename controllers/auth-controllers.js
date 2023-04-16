@@ -1,4 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
+const crypto = require("crypto");
 const User = require("../models/User");
 const { BadRequestError, UnauthenticatedError } = require("../errors/index");
 const { attachCookiesToResponse } = require("../utils/jwt");
@@ -20,15 +21,20 @@ const register = async (req, res) => {
   const isFirstAccount = (await User.countDocuments({})) === 0;
   const role = isFirstAccount ? "admin" : "user";
 
-  const verificationToken = "fake token";
+  const verificationToken = crypto.randomBytes(40).toString("hex");
 
-  const user = await User.create({ email, name, password, role, verificationToken }); // to secure the role (by preventing the user to register as admin)
-  
+  const user = await User.create({
+    email,
+    name,
+    password,
+    role,
+    verificationToken,
+  }); // to secure the role (by preventing the user to register as admin)
+
   // send verification token back only while testing in Postman!
   res.status(StatusCodes.CREATED).json({
     msg: "Success! Please check your email to verify account",
     verificationToken,
-
   });
 };
 
