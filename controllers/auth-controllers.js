@@ -48,6 +48,10 @@ const login = async (req, res) => {
     throw new UnauthenticatedError("Incorrect password!");
   }
 
+  if (!user.isVerified) {
+    throw new UnauthenticatedError("Please verify your email");
+  }
+
   const tokenPayload = createTokenPayload(user);
   attachCookiesToResponse({ res, tokenPayload });
 
