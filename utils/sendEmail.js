@@ -1,9 +1,10 @@
 const nodemailer = require("nodemailer");
+const nodemailerConfig = require("./nodemailerConfig");
 
 const sendEmail = async () => {
   let testAccount = await nodemailer.createTestAccount();
 
-  const transporter = nodemailer.createTransport();
+  const transporter = nodemailer.createTransport(nodemailerConfig);
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
