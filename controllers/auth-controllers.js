@@ -4,7 +4,7 @@ const User = require("../models/User");
 const { BadRequestError, UnauthenticatedError } = require("../errors/index");
 const { attachCookiesToResponse } = require("../utils/jwt");
 const createTokenPayload = require("../utils/tokenPayload");
-const sendEmail = require("../utils/sendEmail");
+const sendVerificationEmail = require("../utils/sendVerficationEmail");
 
 const register = async (req, res) => {
   const { name, email, password } = req.body;
@@ -32,12 +32,17 @@ const register = async (req, res) => {
     verificationToken,
   }); // to secure the role (by preventing the user to register as admin)
 
-  await sendEmail();
+  const origin = "http://localhost:3000";
+  await sendVerificationEmail({
+    email: user.email,
+    name: user.name,
+    verificationToken: user.verificationToken,
+    origin
+  });
 
   // send verification token back only while testing in Postman!
   res.status(StatusCodes.CREATED).json({
     msg: "Success! Please check your email to verify account",
-    
   });
 };
 

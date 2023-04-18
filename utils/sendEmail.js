@@ -7,8 +7,9 @@ const sendEmail = async ({ to, subject, html }) => {
   const transporter = nodemailer.createTransport(nodemailerConfig);
 
   // send mail with defined transport object 
-  // (no need to use "await" here because we're awaiting this function 
-  // inside of the register controller)
+  // (no need to use "await" here because we use this function 
+  // inside of the sendVerificationEmail function
+  // which is being invoked inside of the register controller with the "await" keyword)
   return transporter.sendMail({
     from: '"Lana Sharin" <lana@example.com>', // sender address
     to, // list of receivers
