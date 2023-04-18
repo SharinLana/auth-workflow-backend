@@ -3,14 +3,7 @@ const nodemailer = require("nodemailer");
 const sendEmail = async () => {
   let testAccount = await nodemailer.createTestAccount();
 
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
-    auth: {
-        user: 'tressa34@ethereal.email',
-        pass: '2WRCht9g6UZ7QDGkQX'
-    }
-});
+  const transporter = nodemailer.createTransport();
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
