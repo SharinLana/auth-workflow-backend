@@ -6,13 +6,14 @@ const sendEmail = async ({ to, subject, html }) => {
 
   const transporter = nodemailer.createTransport(nodemailerConfig);
 
-  // send mail with defined transport object
-  let info = await transporter.sendMail({
+  // send mail with defined transport object 
+  // (no need to use "await" here because we're awaiting this function 
+  // inside of the register controller)
+  return transporter.sendMail({
     from: '"Lana Sharin" <lana@example.com>', // sender address
-    to: "user@example.com, new_user@example.com", // list of receivers
-    subject: "Testing email ✔", // Subject line
-    text: "Hello world", // plain text body
-    html: "<b>Testing email</b>", // html body
+    to, // list of receivers
+    subject, // Subject line
+    html, // html body
   });
 };
 
