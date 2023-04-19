@@ -6,7 +6,9 @@ const sendVerificationEmail = async ({
   verificationToken,
   origin,
 }) => {
-  const message = `<p>Please confirm your email by clicking on the following link: <a href="/user/verify-email">Verify Email</a></p>`;
+  // /user/verify-email is a front-end route
+  const verifyEmailUrl = `${origin}/user/verify-email?token=${verificationToken}&email=${email}`;
+  const message = `<p>Please confirm your email by clicking on the following link: <a href="${verifyEmailUrl}">Verify Email</a></p>`;
 
   //   again, no await because we invoke this function inside of the register controller
   return sendEmail({
