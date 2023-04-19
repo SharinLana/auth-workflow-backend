@@ -1,4 +1,28 @@
-const sendEmail = require("./sendEmail");
+// const sendEmail = require("./sendEmail");
+
+// const sendVerificationEmail = async ({
+//   name,
+//   email,
+//   verificationToken,
+//   origin,
+// }) => {
+//   // /user/verify-email is a front-end route
+//   const verifyEmailUrl = `${origin}/user/verify-email?token=${verificationToken}&email=${email}`;
+//   const message = `<p>Please confirm your email by clicking on the following link: <a href="${verifyEmailUrl}">Verify Email</a></p>`;
+
+//   //   again, no await because we invoke this function inside of the register controller
+//   return sendEmail({
+//     to: email,
+//     subject: "Email Confirmation",
+//     html: `<h4>Hello ${name}</h4>
+//     ${message}
+//     `,
+//   });
+// };
+
+// module.exports = sendVerificationEmail;
+
+const sendEmail = require('./sendEmail');
 
 const sendVerificationEmail = async ({
   name,
@@ -6,15 +30,15 @@ const sendVerificationEmail = async ({
   verificationToken,
   origin,
 }) => {
-  // /user/verify-email is a front-end route
-  const verifyEmailUrl = `${origin}/user/verify-email?token=${verificationToken}&email=${email}`;
-  const message = `<p>Please confirm your email by clicking on the following link: <a href="${verifyEmailUrl}">Verify Email</a></p>`;
+  const verifyEmail = `${origin}/user/verify-email?token=${verificationToken}&email=${email}`;
 
-  //   again, no await because we invoke this function inside of the register controller
+  const message = `<p>Please confirm your email by clicking on the following link : 
+  <a href="${verifyEmail}">Verify Email</a> </p>`;
+
   return sendEmail({
     to: email,
-    subject: "Email Confirmation",
-    html: `<h4>Hello ${name}</h4>
+    subject: 'Email Confirmation',
+    html: `<h4> Hello, ${name}</h4>
     ${message}
     `,
   });
