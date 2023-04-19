@@ -1,6 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const crypto = require("crypto");
 const User = require("../models/User");
+const Token = require("Token");
 const { BadRequestError, UnauthenticatedError } = require("../errors/index");
 const { attachCookiesToResponse } = require("../utils/jwt");
 const createTokenPayload = require("../utils/tokenPayload");
@@ -32,7 +33,7 @@ const register = async (req, res) => {
     verificationToken,
   }); // to secure the role (by preventing the user to register as admin)
 
-  const origin = 'http://localhost:3000';
+  const origin = "http://localhost:3000";
   // const newOrigin = 'https://react-node-user-workflow-front-end.netlify.app';
 
   // const tempOrigin = req.get('origin');
@@ -98,7 +99,16 @@ const login = async (req, res) => {
   }
 
   const tokenPayload = createTokenPayload(user);
-  attachCookiesToResponse({ res, tokenPayload });
+
+  let = refreshToken = "";
+  refreshToken = crypto.randomBytes(40).toStrig("hex");
+  const userAgent = req.headers["user-agent"];
+  const ip = req.ip;
+  const userToken = { refreshToken, ip, userAgent, user: user._id };
+
+  await Token.create(userToken);
+
+  attachCookiesToResponse({ res, tokenPayload, refreshToken });
 
   res.status(StatusCodes.OK).json({
     user: tokenPayload,
