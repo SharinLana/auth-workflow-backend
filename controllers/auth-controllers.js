@@ -1,7 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const crypto = require("crypto");
 const User = require("../models/User");
-const Token = require("Token");
+const Token = require("../models/Token");
 const { BadRequestError, UnauthenticatedError } = require("../errors/index");
 const { attachCookiesToResponse } = require("../utils/jwt");
 const createTokenPayload = require("../utils/tokenPayload");
@@ -101,7 +101,7 @@ const login = async (req, res) => {
   const tokenPayload = createTokenPayload(user);
 
   let = refreshToken = "";
-  refreshToken = crypto.randomBytes(40).toStrig("hex");
+  refreshToken = crypto.randomBytes(40).toString("hex");
   const userAgent = req.headers["user-agent"];
   const ip = req.ip;
   const userToken = { refreshToken, ip, userAgent, user: user._id };
