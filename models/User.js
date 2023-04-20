@@ -25,6 +25,12 @@ const userSchema = new mongoose.Schema({
     minLength: [6, "Password cannot be shorter that 6 characters!"],
     trim: true,
   },
+  passwordToken: {
+    type: String,
+  },
+  passwordTokenExpirationDate: {
+    type: Date,
+  },
   role: {
     type: String,
     enum: ["admin", "user"],
