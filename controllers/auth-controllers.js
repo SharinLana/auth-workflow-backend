@@ -6,6 +6,7 @@ const { BadRequestError, UnauthenticatedError } = require("../errors/index");
 const { attachCookiesToResponse } = require("../utils/jwt");
 const createTokenPayload = require("../utils/tokenPayload");
 const sendVerificationEmail = require("../utils/sendVerficationEmail");
+const sendResetPasswordEmail = require("../utils/sendResetPasswordEmail");
 
 const register = async (req, res) => {
   const { name, email, password } = req.body;
@@ -156,8 +157,16 @@ const forgotPassword = async (req, res) => {
 
   if (user) {
     const passwordToken = crypto.randomBytes(40).toString("hex");
-    // send email
 
+    const origin = "http://localhost:3000";
+    // send email
+    await sendResetPasswordEmail({
+      name: user.name,
+      email: user.email,
+      passwordToken: passwordToken,
+      origin,
+    });
+    
     const tenMin = 1000 * 60 * 10;
     const passwordTokenExpirationDate = new Date(Date.now() + tenMin);
 
