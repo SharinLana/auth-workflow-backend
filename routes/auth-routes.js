@@ -1,4 +1,5 @@
 const express = require("express");
+const authenticateUser = require("../middleware/authentication");
 const {
   register,
   login,
@@ -10,7 +11,7 @@ const router = express.Router();
 
 router.route("/register").post(register);
 router.route("/login").post(login);
-router.route("/logout").get(logout);
+router.route("/logout").delete(authenticateUser, logout);
 router.route("/verify-email").post(verifyEmail);
 
 module.exports = router;
