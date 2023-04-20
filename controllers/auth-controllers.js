@@ -101,6 +101,26 @@ const login = async (req, res) => {
   const tokenPayload = createTokenPayload(user);
 
   let = refreshToken = "";
+
+  const existingToken = await Token.findOne({ user: user._id });
+  
+  if (existingToken) {
+    const { isValid } = existingToken;
+
+    if (!isValid) {
+      throw new UnauthenticatedError("Invalid Credentials");
+    }
+
+    refreshToken = existingToken.refreshToken;
+
+    attachCookiesToResponse({ res, tokenPayload, refreshToken });
+
+    res.status(StatusCodes.OK).json({
+      user: tokenPayload,
+    });
+    return;
+  }
+
   refreshToken = crypto.randomBytes(40).toString("hex");
   const userAgent = req.headers["user-agent"];
   const ip = req.ip;
