@@ -137,7 +137,7 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
   await Token.findOneAndDelete({ user: req.user.userId }); // req.user.userId came from the authentication middleware I attached to the /logout route
-  
+
   res.cookie("accessToken", "logout", {
     httpOnly: true,
     expires: new Date(Date.now()),
@@ -149,4 +149,19 @@ const logout = async (req, res) => {
   res.status(StatusCodes.OK).json({ message: "user logged out" });
 };
 
-module.exports = { register, login, logout, verifyEmail };
+const forgotPassword = async (req, res) => {
+  res.send("forgot password");
+};
+
+const resetPassword = async (req, res) => {
+  res.send("reset password");
+};
+
+module.exports = {
+  register,
+  login,
+  logout,
+  verifyEmail,
+  forgotPassword,
+  resetPassword,
+};
