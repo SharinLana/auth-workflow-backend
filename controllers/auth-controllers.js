@@ -103,7 +103,7 @@ const login = async (req, res) => {
   let = refreshToken = "";
 
   const existingToken = await Token.findOne({ user: user._id });
-  
+
   if (existingToken) {
     const { isValid } = existingToken;
 
@@ -136,7 +136,13 @@ const login = async (req, res) => {
 };
 
 const logout = async (req, res) => {
-  res.cookie("token", "logout", {
+  await Token.findOneAndDelete({ user: req.user.userId }); // req.user.userId came from the authentication middleware I attached to the /logout route
+  
+  res.cookie("accessToken", "logout", {
+    httpOnly: true,
+    expires: new Date(Date.now()),
+  });
+  res.cookie("refreshToken", "logout", {
     httpOnly: true,
     expires: new Date(Date.now()),
   });

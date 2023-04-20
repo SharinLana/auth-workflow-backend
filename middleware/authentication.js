@@ -8,7 +8,7 @@ const authenticateUser = async (req, res, next) => {
   try {
     if (accessToken) {
       const payload = isTokenValid(accessToken);
-      req.user = payload.user;
+      req.user = payload.tokenPayload;
       return next(); // passing to the controller
     }
     const payload = isTokenValid(refreshToken);
@@ -27,7 +27,7 @@ const authenticateUser = async (req, res, next) => {
       tokenPayload: payload.user,
       refreshToken: existingToken.refreshToken,
     });
-    req.user = payload.user;
+    req.user = payload.tokenPayload;
     next();
   } catch (err) {
     throw new CustomAPIError.UnauthenticatedError("Authentication invalid!");
