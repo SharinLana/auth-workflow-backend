@@ -1,6 +1,6 @@
 ### Auth Workflow (Backend)
 
-> An authentication and password resetting reference project
+> An authentication and password resetting reference project. AccessToken and RefreshToken stored in cookies. PasswordToken.
 
 #### Languages and Technologies Used:
 
