@@ -166,7 +166,7 @@ const forgotPassword = async (req, res) => {
       passwordToken: passwordToken,
       origin,
     });
-    
+
     const tenMin = 1000 * 60 * 10;
     const passwordTokenExpirationDate = new Date(Date.now() + tenMin);
 
@@ -181,6 +181,27 @@ const forgotPassword = async (req, res) => {
 };
 
 const resetPassword = async (req, res) => {
+  const { email, password, token } = req.body;
+
+  if (!token || !password || !email) {
+    throw new BadRequestError("Please provide all values");
+  }
+
+  const user = await User.findOne({ email });
+
+  if (user) {
+    const currentDate = new Date();
+
+    if (
+      user.passwordToken === token &&
+      user.passwordTokenExpirationDate > currentDate
+    ) {
+      user.password = password;
+      user.passwordToken = null;
+      user.passwordTokenExpirationDate = null;
+      await user.save();
+    }
+  }
   res.send("reset password");
 };
 
