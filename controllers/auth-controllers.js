@@ -36,7 +36,7 @@ const register = async (req, res) => {
   }); // to secure the role (by preventing the user to register as admin)
 
   // const origin = "http://localhost:3000";
-  const origin = "https://mern-auth-workflow.onrender.com";
+  const origin = "https://merry-hamster-4b3dc5.netlify.app";
   // const newOrigin = 'https://react-node-user-workflow-front-end.netlify.app';
 
   // const tempOrigin = req.get('origin');
@@ -161,7 +161,7 @@ const forgotPassword = async (req, res) => {
     const passwordToken = crypto.randomBytes(40).toString("hex");
 
     // const origin = "http://localhost:3000";
-    const origin = "https://mern-auth-workflow.onrender.com";
+    const origin = "https://merry-hamster-4b3dc5.netlify.app";
     // send email
     await sendResetPasswordEmail({
       name: user.name,
